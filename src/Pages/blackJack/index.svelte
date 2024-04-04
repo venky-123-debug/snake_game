@@ -3,7 +3,7 @@
 
   let canvas
   let ctx
-  let tileSize = 5
+  let tileSize = 4
   let rows
   let cols
   let snake
@@ -24,6 +24,22 @@
 
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    ctx.strokeStyle = "#166af2"
+    // ctx.strokeStyle = "rgba(255, 255, 255, 0.1)"
+    for (let i = 0; i < rows; i++) {
+      ctx.beginPath()
+      ctx.moveTo(0, i * tileSize)
+      ctx.lineTo(canvas.width, i * tileSize)
+      ctx.stroke()
+    }
+    for (let i = 0; i < cols; i++) {
+      ctx.beginPath()
+      ctx.moveTo(i * tileSize, 0)
+      ctx.lineTo(i * tileSize, canvas.height)
+      ctx.stroke()
+    }
+    
     ctx.fillStyle = "green"
     snake.forEach((segment) => {
       ctx.fillRect(segment.x * tileSize, segment.y * tileSize, tileSize, tileSize)
@@ -64,7 +80,7 @@
     checkCollision()
     draw()
   }
-
+ 
   onMount(() => {
     canvas = document.getElementById("canvas")
     ctx = canvas.getContext("2d")
@@ -95,8 +111,8 @@
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
-<div class="relative flex h-screen w-screen items-center justify-center overflow-hidden">
-  <canvas id="canvas" class="h-2/3 w-2/3 rounded-md border border-dashed border-gray-900" />
+<div class="relative flex h-screen w-screen bg-gradient-to-r from-teal-400 to-gray-800 items-center justify-center overflow-hidden">
+  <canvas id="canvas" class="h-[80%] w-[80%] rounded-md border border-dashed border-gray-900 bg-gradient-to-r from-indigo-200 to-yellow-100" />
   <div class="absolute top-3 right-3">Score: {score}</div>
-  <div>Press Space to Pause/Play</div>
+  <!-- <div>Press Space to Pause/Play</div> -->
 </div>

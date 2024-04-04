@@ -13,8 +13,8 @@
   @tailwind utilities;
 
   body {
-    /* font-family: "Audiowide", sans-serif; */
-    font-family: "Alexandria";
+    font-family: "Audiowide", sans-serif;
+    /* font-family: "Alexandria"; */
     /* font-size: 22px; */
   }
 </style>
