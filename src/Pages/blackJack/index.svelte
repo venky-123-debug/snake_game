@@ -25,7 +25,9 @@
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    ctx.strokeStyle = "#166af2"
+    // ctx.strokeStyle = "#166af2"
+    ctx.lineWidth = 0.2
+    ctx.strokeStyle = "#f0f3f7"
     // ctx.strokeStyle = "rgba(255, 255, 255, 0.1)"
     for (let i = 0; i < rows; i++) {
       ctx.beginPath()
@@ -39,7 +41,7 @@
       ctx.lineTo(i * tileSize, canvas.height)
       ctx.stroke()
     }
-    
+
     ctx.fillStyle = "green"
     snake.forEach((segment) => {
       ctx.fillRect(segment.x * tileSize, segment.y * tileSize, tileSize, tileSize)
@@ -80,13 +82,14 @@
     checkCollision()
     draw()
   }
- 
+
   onMount(() => {
     canvas = document.getElementById("canvas")
     ctx = canvas.getContext("2d")
     cols = Math.floor(canvas.width / tileSize)
     rows = Math.floor(canvas.height / tileSize)
     resetGame()
+    isPaused = true
     setInterval(update, 100)
   })
 
@@ -104,15 +107,22 @@
     } else if (keyPressed === "ArrowDown" && dy === 0) {
       dx = 0
       dy = tileSize
-    } else if (keyPressed === " ") {
-      isPaused = !isPaused
     }
+    // else if (keyPressed === " ") {
+    //   isPaused = !isPaused
+    // }
+  }
+  const playControl = (e) => {
+    isPaused = !isPaused
   }
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
-<div class="relative flex h-screen w-screen bg-gradient-to-r from-teal-400 to-gray-800 items-center justify-center overflow-hidden">
-  <canvas id="canvas" class="h-[80%] w-[80%] rounded-md border border-dashed border-gray-900 bg-gradient-to-r from-indigo-200 to-yellow-100" />
-  <div class="absolute top-3 right-3">Score: {score}</div>
+<div class="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-r from-teal-400 to-gray-800">
+  <div class="absolute top-3 right-3 text-2xl font-semibold text-white">Score: {score}</div>
+  <canvas id="canvas" class="h-[60%] w-[60%] rounded-md border border-dashed border-gray-900 bg-gray-500" />
   <!-- <div>Press Space to Pause/Play</div> -->
+  <div class="flex w-full items-center justify-center">
+    <button on:click={playControl} type="button" class="{isPaused ? 'bg-green-500' : 'bg-red-500'} w-32 rounded-md mt-5 px-5 py-2 text-white">{isPaused ? "Start" : "Stop"}</button>
+  </div>
 </div>
